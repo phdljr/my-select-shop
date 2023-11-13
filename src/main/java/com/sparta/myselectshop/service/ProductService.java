@@ -5,11 +5,17 @@ import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Product;
 import com.sparta.myselectshop.entity.User;
+import com.sparta.myselectshop.entity.UserRoleEnum;
 import com.sparta.myselectshop.naver.dto.ItemDto;
 import com.sparta.myselectshop.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +41,7 @@ public class ProductService {
                 "유효하지 않은 관심 가격입니다. 최소 " + MIN_MY_PRICE + "원 이상으로 설정해 주세요.");
         }
 
-        Product product  = productRepository.findById(id).orElseThrow(()->
+        Product product = productRepository.findById(id).orElseThrow(() ->
             new NullPointerException("해당 상품을 찾을 수 없습니다.")
         );
 
@@ -44,15 +50,23 @@ public class ProductService {
         return new ProductResponseDto(product);
     }
 
-    public List<ProductResponseDto> getProducts(final User user) {
-        List<Product> products = productRepository.findAllByUser(user);
-        List<ProductResponseDto> result = new ArrayList<>();
+    public Page<ProductResponseDto> getProducts(final User user, final int page, final int size,
+        final String sortBy, final boolean isAsc) {
 
-        for (Product product : products) {
-            result.add(new ProductResponseDto(product));
+        Direction direction = isAsc ? Direction.ASC : Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        UserRoleEnum userRoleEnum = user.getRole();
+
+        Page<Product> products;
+        if(userRoleEnum == UserRoleEnum.USER){
+            products = productRepository.findAllByUser(user, pageable);
+        } else{
+            products = productRepository.findAll(pageable);
         }
 
-        return result;
+        return products.map(ProductResponseDto::new);
     }
 
     @Transactional
@@ -62,16 +76,5 @@ public class ProductService {
         );
 
         product.updateByItemDto(itemDto);
-    }
-
-    public List<ProductResponseDto> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        List<ProductResponseDto> result = new ArrayList<>();
-
-        for (Product product : products) {
-            result.add(new ProductResponseDto(product));
-        }
-
-        return result;
     }
 }
