@@ -8,8 +8,6 @@ import com.sparta.myselectshop.entity.User;
 import com.sparta.myselectshop.entity.UserRoleEnum;
 import com.sparta.myselectshop.naver.dto.ItemDto;
 import com.sparta.myselectshop.repository.ProductRepository;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,9 +58,9 @@ public class ProductService {
         UserRoleEnum userRoleEnum = user.getRole();
 
         Page<Product> products;
-        if(userRoleEnum == UserRoleEnum.USER){
+        if (userRoleEnum == UserRoleEnum.USER) {
             products = productRepository.findAllByUser(user, pageable);
-        } else{
+        } else {
             products = productRepository.findAll(pageable);
         }
 

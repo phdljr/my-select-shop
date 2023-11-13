@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequestDto {
+
     // 관심상품명
     private String title;
     // 관심상품 썸네일 image URL

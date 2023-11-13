@@ -2,6 +2,9 @@ package com.sparta.myselectshop.naver.service;
 
 
 import com.sparta.myselectshop.naver.dto.ItemDto;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,10 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j(topic = "NAVER API")
 @Service
@@ -59,7 +58,7 @@ public class NaverApiService {
 
     public List<ItemDto> fromJSONtoItems(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
-        JSONArray items  = jsonObject.getJSONArray("items");
+        JSONArray items = jsonObject.getJSONArray("items");
         List<ItemDto> itemDtoList = new ArrayList<>();
 
         for (Object item : items) {

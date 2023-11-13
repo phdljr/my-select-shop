@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProductResponseDto {
+
     private Long id;
     private String title;
     private String link;

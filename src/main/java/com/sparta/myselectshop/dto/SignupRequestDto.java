@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupRequestDto {
+
     @NotBlank
     private String username;
     @NotBlank
