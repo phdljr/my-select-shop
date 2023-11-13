@@ -48,6 +48,7 @@ public class ProductService {
         return new ProductResponseDto(product);
     }
 
+    @Transactional(readOnly = true)
     public Page<ProductResponseDto> getProducts(final User user, final int page, final int size,
         final String sortBy, final boolean isAsc) {
 
