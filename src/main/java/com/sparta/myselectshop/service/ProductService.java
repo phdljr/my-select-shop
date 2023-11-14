@@ -55,6 +55,7 @@ public class ProductService {
         return new ProductResponseDto(product);
     }
 
+    // 지연 로딩을 사용하기 때문에 설정(조회 전용)
     @Transactional(readOnly = true)
     public Page<ProductResponseDto> getProducts(final User user, final int page, final int size,
         final String sortBy, final boolean isAsc) {

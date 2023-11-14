@@ -28,6 +28,7 @@ public class ProductResponseDto {
         this.lprice = product.getLprice();
         this.myprice = product.getMyprice();
 
+        // 지연 로딩을 사용하는 곳
         for (ProductFolder productFolder : product.getProductFolderList()) {
             productFolderList.add(new FolderResponseDto(productFolder.getFolder()));
         }
