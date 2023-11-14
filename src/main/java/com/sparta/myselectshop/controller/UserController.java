@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/user-folder")
-    public String getUserInfo(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String getUserInfo(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         model.addAttribute("folders", folderService.getFolders(userDetails.getUser()));
         return "index :: #fragment";
     }

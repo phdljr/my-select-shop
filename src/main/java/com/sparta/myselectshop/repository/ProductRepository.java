@@ -1,6 +1,5 @@
 package com.sparta.myselectshop.repository;
 
-import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Product;
 import com.sparta.myselectshop.entity.User;
 import org.springframework.data.domain.Page;
@@ -22,5 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             order by p.id desc
                 limit 10, 10; => 페이지네이션
      */
-    Page<Product> findAllByUserAndProductFolderList_FolderId(User user, Long folderId, Pageable pageable);
+    Page<Product> findAllByUserAndProductFolderList_FolderId(User user, Long folderId,
+        Pageable pageable);
 }
