@@ -3,12 +3,16 @@ package com.sparta.myselectshop.controller;
 import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
+import com.sparta.myselectshop.exception.RestApiException;
 import com.sparta.myselectshop.security.CurrentUser;
 import com.sparta.myselectshop.security.UserDetailsImpl;
 import com.sparta.myselectshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +80,17 @@ public class ProductController {
             sortBy,
             isAsc,
             userDetails.getUser()
+        );
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<RestApiException> handleException(IllegalArgumentException ex) {
+        RestApiException restApiException = new RestApiException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(
+            // HTTP body
+            restApiException,
+            // HTTP status code
+            HttpStatus.BAD_REQUEST
         );
     }
 }
